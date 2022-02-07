@@ -12,7 +12,7 @@ const LandingScreen: FC<ILandingScreenProps> = () => {
   const navigation: StackNavigationProp<AppParams> = useNavigation();
 
   const onPressNext = () => {
-    navigation.navigate('CarsStack');
+    navigation.navigate('CarsStack', {menuOpen: true, goBack: false});
   };
 
   return <LandingView onPressNext={onPressNext} />;

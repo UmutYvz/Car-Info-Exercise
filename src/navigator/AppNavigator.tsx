@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, {FC} from 'react';
 
 import {
@@ -15,15 +16,40 @@ import CarsScreen from '../pages/Cars/CarsScreen';
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
 
+const Drawer = createDrawerNavigator();
+import {createDrawerNavigator} from '@react-navigation/drawer';
+
+import DrawerComponent from '../components/Drawer/DrawerComponent';
+
+const Root: FC = (props: any) => {
+  return (
+    <Drawer.Navigator
+      initialRouteName="Cars"
+      drawerContent={(props: any) => <DrawerComponent {...props} />}
+      screenOptions={{
+        // @ts-ignore
+        header: (props: StackHeaderProps) => <Header navProps={props} />,
+      }}>
+      <Drawer.Screen
+        name="Cars"
+        component={CarsScreen}
+        initialParams={props.route.params}
+      />
+      <Drawer.Screen
+        name="CarDetail"
+        component={CarDetailScreen}
+        initialParams={props.route.params}
+      />
+    </Drawer.Navigator>
+  );
+};
+
 const CarsStack: FC = (props: any) => {
   return (
     <Stack.Navigator
       //@ts-ignore
-      headerMode="screen"
-      screenOptions={{
-        header: () => <Header navProps={props} />,
-      }}>
-      <Stack.Screen
+      headerMode="none">
+      {/* <Stack.Screen
         name="Cars"
         component={CarsScreen}
         initialParams={props.route.params}
@@ -32,6 +58,12 @@ const CarsStack: FC = (props: any) => {
         name="CarDetail"
         component={CarDetailScreen}
         initialParams={props.route.params}
+      /> */}
+      <Stack.Screen
+        name="Root"
+        component={Root}
+        initialParams={props.route.params}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
